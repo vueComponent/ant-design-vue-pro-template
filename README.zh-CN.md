@@ -1,4 +1,4 @@
-English | [简体中文](./README.zh-CN.md)
+[English](./README.md) | 简体中文
 
 <h1 align="center">Ant Design Vue Pro</h1>
 <div align="center">
@@ -13,14 +13,16 @@ An out-of-box UI solution for enterprise applications as a Vue boilerplate. base
 
 </div>
 
-- Preview: https://preview.pro.antdv.com
-- Home Page: https://pro.antdv.com
-- Documentation: https://pro.antdv.com/docs/getting-started
-- ChangeLog: https://pro.antdv.com/docs/changelog
-- FAQ: https://pro.antdv.com/docs/faq
+- 预览: https://preview.pro.antdv.com
+- 首页: https://pro.antdv.com
+- 文档: https://pro.antdv.com/docs/getting-started
+- 更新日志: https://pro.antdv.com/docs/changelog
+- 常见问题: https://pro.antdv.com/docs/faq
 
 Overview
 ----
+
+基于 [Ant Design of Vue](https://vuecomponent.github.io/ant-design-vue/docs/vue/introduce-cn/) 实现的 [Ant Design Pro](https://pro.ant.design/) 
 
 ![dashboard](https://static-2.loacg.com/open/static/github/sp3.png)
 

@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import { constantRouterMap, asyncRouterMap } from '@/config/router.config'
+import { constantRouterMap } from '@/config/router.config'
 
 // hack router push/replace callback
 ['push', 'replace'].map(key => {
@@ -19,7 +19,7 @@ Vue.use(VueRouter)
 
 const router = new VueRouter({
   mode: 'history',
-  routes: constantRouterMap.concat(asyncRouterMap),
+  routes: constantRouterMap,
 })
 
 export default router

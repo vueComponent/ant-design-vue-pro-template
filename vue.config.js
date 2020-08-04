@@ -1,7 +1,9 @@
 const path = require('path')
 const webpack = require('webpack')
 const { IgnorePlugin } = require('webpack')
+const { createMockMiddleware } = require('umi-mock-middleware')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
+const createThemeColorReplacerPlugin = require('./config/theme.plugin')
 const GitRevisionPlugin = require('git-revision-webpack-plugin')
 const GitRevision = new GitRevisionPlugin()
 const buildDate = JSON.stringify(new Date().toLocaleString())
@@ -104,19 +106,25 @@ const vueConfig = {
   },
   devServer: {
     // development server port 8000
-    port: 8001,
-    // If you want to turn on the proxy, please remove the mockjs /src/main.jsL11
-    proxy: {
-      '/api': {
-        // backend url
-        target: 'http://localhost:8080/gateway',
-        ws: false,
-        changeOrigin: true,
-        pathRewrite: {
-          '^/api': '',
-        },
-      },
+    port: 8000,
+    // mock serve
+    before: app => {
+      if (process.env.MOCK !== 'none' && process.env.HTTP_MOCK !== 'none') {
+        app.use(createMockMiddleware())
+      }
     },
+    // If you want to turn on the proxy, please remove the mockjs /src/main.jsL11
+    // proxy: {
+    //   '/api': {
+    //     // backend url
+    //     target: 'http://localhost:8080/gateway',
+    //     ws: false,
+    //     changeOrigin: true,
+    //     pathRewrite: {
+    //       '^/api': '',
+    //     },
+    //   },
+    // },
   },
   /* ADVANCED SETTINGS */
 
@@ -127,6 +135,13 @@ const vueConfig = {
   lintOnSave: 'warning',
   // babel-loader no-ignore node_modules/*
   transpileDependencies: [],
+}
+
+// preview.pro.antdv.com only do not use in your production;
+if (process.env.VUE_APP_PREVIEW === 'true') {
+  console.log('Running Preview Mode')
+  // add `ThemeColorReplacer` plugin to webpack plugins
+  vueConfig.configureWebpack.plugins.push(createThemeColorReplacerPlugin())
 }
 
 module.exports = vueConfig

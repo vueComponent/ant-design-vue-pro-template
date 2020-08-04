@@ -78,3 +78,10 @@ export {
   default as AlignLeftOutline,
 } from '@ant-design/icons/lib/outline/AlignLeftOutline'
 /* MultiTab end */
+
+export {
+  default as LockOutline,
+} from '@ant-design/icons/lib/outline/LockOutline'
+export {
+  default as CloseCircleOutline,
+} from '@ant-design/icons/lib/outline/CloseCircleOutline'

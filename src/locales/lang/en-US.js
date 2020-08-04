@@ -34,6 +34,8 @@ export default {
     dashboard: {
       welcome: {
         tips: 'Welcome used Ant Design Vue',
+        'show-loading': 'Show Loading',
+        'hide-loading': 'Hide Loading',
       },
     },
     form: {

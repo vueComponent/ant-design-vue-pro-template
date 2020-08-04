@@ -34,6 +34,8 @@ export default {
     dashboard: {
       welcome: {
         tips: '欢迎使用 Ant Design Vue',
+        'show-loading': '显示 Loading',
+        'hide-loading': '隐藏 Loading',
       },
     },
     form: {
