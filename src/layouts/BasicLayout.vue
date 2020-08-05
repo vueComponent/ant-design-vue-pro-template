@@ -1,47 +1,75 @@
 <template>
   <pro-layout
-    title="Ant Design Pro"
+    :title="siteTitle"
     :menus="menus"
     :collapsed="collapsed"
     :media-query="query"
     :handle-media-query="handleMediaQuery"
     :handle-collapse="handleCollapse"
     :i18n-render="i18nRender"
-    v-bind="settings"
+    v-bind="{
+      theme,
+      layout,
+      isMobile,
+      contentWidth,
+      fixedHeader,
+      fixSiderbar: fixedSidebar,
+    }"
   >
     <template v-slot:menuHeaderRender>
       <div>
-        <img src="~@/assets/logo.svg">
-        <h1>Ant Design Pro</h1>
+        <img src="~@/assets/logo.svg" :alt="siteTitle">
+        <h1>{{ siteTitle }}</h1>
       </div>
     </template>
     <template v-slot:rightContentRender>
       <right-content
-        :top-menu="settings.layout === 'topmenu'"
+        :top-menu="layout === 'topmenu'"
         :is-mobile="isMobile"
-        :theme="settings.theme"
+        :theme="theme"
       />
     </template>
     <template v-slot:footerRender>
       <global-footer />
     </template>
-    <setting-drawer :settings="settings" @change="handleSettingChange" />
+    <setting-drawer
+      :settings="{
+        layout,
+        theme,
+        contentWidth,
+        primaryColor,
+        colorWeak,
+        fixedHeader,
+        fixSiderbar: fixedSidebar,
+        hideHintAlert: false,
+        hideCopyButton: false
+      }"
+      @change="handleSettingChange"
+    />
     <router-view />
   </pro-layout>
 </template>
 
 <script>
-import { RightContent, GlobalFooter } from '@/components'
-import { SettingDrawer, updateTheme } from '@ant-design-vue/pro-layout'
-import { i18nRender } from '@/locales'
 import { mapState } from 'vuex'
-import { SIDEBAR_TYPE, TOGGLE_MOBILE_TYPE } from '@/store/mutation-types'
-
+import { RightContent, GlobalFooter } from '@/components'
+import { SettingDrawer, updateTheme, updateColorWeak } from '@ant-design-vue/pro-layout'
+import { i18nRender } from '@/locales'
+import { baseMixin } from '@/store/app-mixin'
+import {
+  SIDEBAR_TYPE, TOGGLE_COLOR,
+  TOGGLE_CONTENT_WIDTH, TOGGLE_FIXED_HEADER,
+  TOGGLE_FIXED_SIDEBAR,
+  TOGGLE_LAYOUT,
+  TOGGLE_MOBILE_TYPE, TOGGLE_NAV_THEME, TOGGLE_WEAK,
+} from '@/store/mutation-types'
 import defaultSettings from '@/config/defaultSettings'
 
 export default {
   name: 'BasicLayout',
+  mixins: [baseMixin], // this[xxx] store value mixin, see this file
   data () {
+    this.siteTitle = defaultSettings.title
     return {
       // base
       menus: [],
@@ -49,27 +77,6 @@ export default {
       collapsed: false,
       // 媒体查询
       query: {},
-      // 默认设置
-      settings: {
-        // 布局类型
-        layout: defaultSettings.layout, // 'sidemenu', 'topmenu'
-        // 定宽: true / 流式: false
-        contentWidth: defaultSettings.layout === 'sidemenu'
-          ? false
-          : defaultSettings.contentWidth === 'Fixed',
-        // 主题 'dark' | 'light'
-        theme: defaultSettings.navTheme,
-        // 主色调
-        primaryColor: defaultSettings.primaryColor,
-        fixedHeader: defaultSettings.fixedHeader,
-        fixSiderbar: defaultSettings.fixSiderbar,
-        colorWeak: defaultSettings.colorWeak,
-
-        hideHintAlert: false,
-        hideCopyButton: false,
-      },
-      // 是否手机模式
-      isMobile: false,
     }
   },
   computed: {
@@ -102,43 +109,64 @@ export default {
     }
 
     // first update color
-    // TIPS: THEME COLOR HANDLER!! PLEASE CHECK THAT!!
+    // THEME COLOR HANDLER!! PLEASE CHECK THAT!!
     if (process.env.NODE_ENV !== 'production' || process.env.VUE_APP_PREVIEW === 'true') {
-      updateTheme(this.settings.primaryColor)
+      updateTheme(this.primaryColor)
+    }
+    //  first update color weak
+    if (this.colorWeak) {
+      updateColorWeak(this.colorWeak)
     }
   },
   methods: {
     i18nRender,
-    handleMediaQuery (val) {
-      this.query = val
-      if (this.isMobile && !val['screen-xs']) {
-        this.isMobile = false
-        return
-      }
-      if (!this.isMobile && val['screen-xs']) {
-        this.isMobile = true
-        this.collapsed = false
-        this.settings.contentWidth = false
-        // this.settings.fixSiderbar = false
-      }
-    },
     handleCollapse (val) {
       this.collapsed = val
     },
+    handleMediaQuery (val) {
+      this.query = val
+      if (this.isMobile && !val['screen-xs']) {
+        this.$store.commit(TOGGLE_MOBILE_TYPE, false)
+        return
+      }
+      if (!this.isMobile && val['screen-xs']) {
+        this.$store.commit(TOGGLE_MOBILE_TYPE, true)
+        this.collapsed = false
+        this.$store.commit(TOGGLE_CONTENT_WIDTH, false)
+      }
+    },
+    /**
+     * 同步和保存设置栏配置
+     * */
     handleSettingChange ({ type, value }) {
       console.log('type', type, value)
-      type && (this.settings[type] = value)
       switch (type) {
         case 'contentWidth':
-          this.settings[type] = value === 'Fixed'
+          this.$store.commit(TOGGLE_CONTENT_WIDTH, value === 'Fixed')
+          break
+        case 'primaryColor':
+          this.$store.commit(TOGGLE_COLOR, value)
           break
         case 'layout':
+          this.$store.commit(TOGGLE_LAYOUT, value)
           if (value === 'sidemenu') {
-            this.settings.contentWidth = false
+            this.$store.commit(TOGGLE_CONTENT_WIDTH, false)
           } else {
-            this.settings.fixSiderbar = false
-            this.settings.contentWidth = true
+            this.$store.commit(TOGGLE_CONTENT_WIDTH, true)
+            this.$store.commit(TOGGLE_FIXED_SIDEBAR, false)
           }
+          break
+        case 'theme':
+          this.$store.commit(TOGGLE_NAV_THEME, value)
+          break
+        case 'fixedHeader':
+          this.$store.commit(TOGGLE_FIXED_HEADER, value)
+          break
+        case 'fixSiderbar':
+          this.$store.commit(TOGGLE_FIXED_SIDEBAR, value)
+          break
+        case 'colorWeak':
+          this.$store.commit(TOGGLE_WEAK, value)
           break
       }
     },

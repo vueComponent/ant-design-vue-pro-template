@@ -4,7 +4,7 @@ const baseMixin = {
   computed: {
     ...mapState({
       layout: state => state.app.layout,
-      navTheme: state => state.app.theme,
+      theme: state => state.app.theme,
       primaryColor: state => state.app.color,
       colorWeak: state => state.app.weak,
       fixedHeader: state => state.app.fixedHeader,
