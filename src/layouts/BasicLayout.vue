@@ -57,6 +57,7 @@ import { SettingDrawer, updateTheme, updateColorWeak } from '@ant-design-vue/pro
 import { i18nRender } from '@/locales'
 import { baseMixin } from '@/store/app-mixin'
 import {
+  CONTENT_WIDTH_TYPE,
   SIDEBAR_TYPE, TOGGLE_COLOR,
   TOGGLE_CONTENT_WIDTH, TOGGLE_FIXED_HEADER,
   TOGGLE_FIXED_SIDEBAR,
@@ -133,7 +134,7 @@ export default {
       if (!this.isMobile && val['screen-xs']) {
         this.$store.commit(TOGGLE_MOBILE_TYPE, true)
         this.collapsed = false
-        this.$store.commit(TOGGLE_CONTENT_WIDTH, false)
+        this.$store.commit(TOGGLE_CONTENT_WIDTH, CONTENT_WIDTH_TYPE.Fluid)
       }
     },
     /**
@@ -143,7 +144,7 @@ export default {
       console.log('type', type, value)
       switch (type) {
         case 'contentWidth':
-          this.$store.commit(TOGGLE_CONTENT_WIDTH, value === 'Fixed')
+          this.$store.commit(TOGGLE_CONTENT_WIDTH, value)
           break
         case 'primaryColor':
           this.$store.commit(TOGGLE_COLOR, value)
@@ -151,9 +152,9 @@ export default {
         case 'layout':
           this.$store.commit(TOGGLE_LAYOUT, value)
           if (value === 'sidemenu') {
-            this.$store.commit(TOGGLE_CONTENT_WIDTH, false)
+            this.$store.commit(TOGGLE_CONTENT_WIDTH, CONTENT_WIDTH_TYPE.Fluid)
           } else {
-            this.$store.commit(TOGGLE_CONTENT_WIDTH, true)
+            this.$store.commit(TOGGLE_CONTENT_WIDTH, CONTENT_WIDTH_TYPE.Fixed)
             this.$store.commit(TOGGLE_FIXED_SIDEBAR, false)
           }
           break

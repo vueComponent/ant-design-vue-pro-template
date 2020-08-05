@@ -10,7 +10,7 @@
     "analyz": "vue-cli-service build --mode analyz"
   },
   "dependencies": {
-    "@ant-design-vue/pro-layout": "0.3.9",
+    "@ant-design-vue/pro-layout": "^0.3.12",
     "ant-design-vue": "^1.6.4",
     "axios": "^0.19.2",
     "core-js": "^3.6.5",
