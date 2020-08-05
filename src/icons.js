@@ -1,3 +1,10 @@
+/*
+* 按需加载 Icons
+*
+* 请注意，如果出现有组件图标不显示，
+* 请将该组件使用到的图标在这里引入
+**/
+
 /* Layout begin */
 export {
   default as LeftOutline,

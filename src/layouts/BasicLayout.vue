@@ -86,6 +86,7 @@ export default {
     }),
   },
   created () {
+    // bind router (绑定路由)
     const routes = this.mainMenu.find(item => item.path === '/')
     this.menus = (routes && routes.children) || []
 
