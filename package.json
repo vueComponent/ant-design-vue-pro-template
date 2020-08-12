@@ -10,13 +10,13 @@
     "analyz": "vue-cli-service build --mode analyz"
   },
   "dependencies": {
-    "@ant-design-vue/pro-layout": "^0.3.12",
+    "@ant-design-vue/pro-layout": "^1.0.1-0",
     "ant-design-vue": "^1.6.4",
     "axios": "^0.19.2",
     "core-js": "^3.6.5",
     "mockjs": "^1.1.0",
-    "store": "^2.0.12",
     "nprogress": "^0.2.0",
+    "store": "^2.0.12",
     "vue": "^2.6.11",
     "vue-i18n": "^8.20.0",
     "vue-router": "^3.2.0",

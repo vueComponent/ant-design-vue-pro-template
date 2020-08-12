@@ -92,3 +92,12 @@ export {
 export {
   default as CloseCircleOutline,
 } from '@ant-design/icons/lib/outline/CloseCircleOutline'
+export {
+  default as FullscreenOutline,
+} from '@ant-design/icons/lib/outline/FullscreenOutline'
+export {
+  default as ColumnHeightOutline,
+} from '@ant-design/icons/lib/outline/ColumnHeightOutline'
+export {
+  default as CheckCircleOutline,
+} from '@ant-design/icons/lib/outline/CheckCircleOutline'

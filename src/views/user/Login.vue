@@ -87,7 +87,6 @@
           html-type="submit"
           class="login-button"
           :loading="state.loginBtn"
-          :disabled="state.loginBtn"
         >
           确定
         </a-button>
