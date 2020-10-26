@@ -17,10 +17,13 @@
     }"
   >
     <template v-slot:menuHeaderRender>
-      <div>
+      <div style="background: #000;">
         <img src="~@/assets/logo.svg" :alt="siteTitle">
         <h1>{{ siteTitle }}</h1>
       </div>
+    </template>
+    <template v-slot:headerContentRender>
+      <div>这里可以自定义 DOM</div>
     </template>
     <template v-slot:rightContentRender>
       <right-content

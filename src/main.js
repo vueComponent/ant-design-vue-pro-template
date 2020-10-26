@@ -8,7 +8,7 @@ import router from './router'
 import store from './store'
 import i18n from './locales'
 import bootstrap from './core/bootstrap'
-import { ConfigProvider, Icon, Button, Tag, Menu, Dropdown, Avatar, Spin, Result, Form, Tabs, Input, Checkbox, Row, Col, Modal, Alert, Divider, notification, message } from 'ant-design-vue'
+import { ConfigProvider, Icon, Button, Tag, Menu, Dropdown, Avatar, Spin, Result, Form, Tabs, Input, Checkbox, Row, Col, Modal, Alert, Divider, Table, notification, message } from 'ant-design-vue'
 import ProLayout, { PageHeaderWrapper } from '@ant-design-vue/pro-layout'
 import { PageLoading } from '@/components'
 import themeConfig from './config/theme.config.js'
@@ -37,6 +37,7 @@ Vue.use(Col)
 Vue.use(Modal)
 Vue.use(Alert)
 Vue.use(Divider)
+Vue.use(Table)
 
 Vue.prototype.$confirm = Modal.confirm
 Vue.prototype.$message = message
